@@ -157,4 +157,10 @@ public class ProgramGuideState(
         val position = positionProvider.getTimelinePosition(index, alignment)
         minaBoxState.snapTo(position, translateY)
     }
+
+    public fun getCurrentTimePosition(
+        alignment: Alignment.Horizontal = Alignment.CenterHorizontally
+    ): Float {
+        return positionProvider.getCurrentTimePosition(alignment)
+    }
 }

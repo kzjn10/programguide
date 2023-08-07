@@ -35,6 +35,7 @@ fun ElectronicProgramGuide(
     selectedProgram: Program? = null,
     onSelectProgramChanged: (Program) -> Unit,
     onSelectChannelChanged: (Channel) -> Unit,
+    indicationInvisible: Boolean = false,
 ) {
     ProgramGuide(
         state = state,
@@ -43,7 +44,7 @@ fun ElectronicProgramGuide(
             timelineHeight = settings.timelineHeight,
             channelWidth = settings.channelWidth,
             channelHeight = settings.channelHeight,
-            currentTimeWidth = settings.currentTimeWidth,
+            currentTimeWidth = settings.currentTimeWidth.dp,
         ),
         modifier = modifier
             .fillMaxWidth()
@@ -116,7 +117,7 @@ fun ElectronicProgramGuide(
 
         topCorner(
             itemContent = {
-                EPGTopCorner()
+                EPGTopCorner(indicationInvisible = indicationInvisible)
             },
         )
     }

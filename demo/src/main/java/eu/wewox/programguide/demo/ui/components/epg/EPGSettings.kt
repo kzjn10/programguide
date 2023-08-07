@@ -8,5 +8,5 @@ data class EPGSettings(
     val timelineHeight: Dp = 50.dp,
     val channelWidth: Dp = 128.dp,
     val channelHeight: Dp = 80.dp,
-    val currentTimeWidth: Dp = 100.dp,
+    val currentTimeWidth: Float = 100f,
 )

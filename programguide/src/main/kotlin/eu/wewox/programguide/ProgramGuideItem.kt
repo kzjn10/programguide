@@ -80,7 +80,7 @@ internal fun ProgramGuideItem.toMinaBoxItem(
 
         is ProgramGuideItem.CurrentTime ->
             MinaBoxItem(
-                x = (hour - guideStartHour) * timelineHourWidth + channelWidth,
+                x = (hour - guideStartHour) * timelineHourWidth + channelWidth - (currentTimeWidth.toFloat() / 2),
                 y = 0f,
                 width = MinaBoxItem.Value.Absolute(currentTimeWidth.toFloat()),
                 height = MinaBoxItem.Value.MatchParent(1f),
