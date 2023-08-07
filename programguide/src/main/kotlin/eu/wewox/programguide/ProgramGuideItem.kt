@@ -1,7 +1,6 @@
 package eu.wewox.programguide
 
 import eu.wewox.minabox.MinaBoxItem
-import eu.wewox.programguide.ProgramGuideDefaults.dimensions
 
 /**
  * The layout data for item inside program guide.

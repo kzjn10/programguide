@@ -29,6 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
+import eu.wewox.programguide.demo.screens.EPGScreen
 import eu.wewox.programguide.demo.screens.ProgramGuideConfigurationScreen
 import eu.wewox.programguide.demo.screens.ProgramGuideSimpleScreen
 import eu.wewox.programguide.demo.screens.ProgramGuideSizeScreen
@@ -55,13 +56,14 @@ class MainActivity : ComponentActivity() {
                     example = null
                 }
 
-                Crossfade(targetState = example) { selected ->
+                Crossfade(targetState = example, label = "") { selected ->
                     when (selected) {
                         null -> RootScreen(onExampleClick = { example = it })
                         Example.ProgramGuideSimple -> ProgramGuideSimpleScreen()
                         Example.ProgramGuideConfiguration -> ProgramGuideConfigurationScreen()
                         Example.ProgramGuideState -> ProgramGuideStateScreen()
                         Example.ProgramGuideSize -> ProgramGuideSizeScreen()
+                        Example.EPG -> EPGScreen()
                     }
                 }
             }

@@ -60,6 +60,62 @@ fun createPrograms(
     }
 }
 
+fun createEPGPrograms(
+    channels: Int = CHANNELS_COUNT,
+    timeline: List<Float>
+): List<Program> {
+    var channel = 0
+    var hour = timeline.first() + HOURS.random()
+    return buildList {
+        while (channel < channels) {
+            while (true) {
+                val end = hour + HOURS.random()
+                if (end > timeline.last()) {
+                    break
+                }
+
+                add(Program(channel, hour, end, "Program #$size"))
+                hour = end
+            }
+            hour = timeline.first() + HOURS.random()
+            channel += 1
+        }
+    }
+}
+
+/***
+ * Create a list of program to view on program guide
+ */
+fun generateTimeline(startTime: Float, endTime: Float, step: Float): List<Float> {
+
+    if (startTime > endTime || step <= 0f) {
+        throw Exception("Invalid input")
+    }
+
+    var time = startTime
+    val timeline = mutableListOf<Float>()
+    while (time <= endTime) {
+        timeline.add(time)
+        time += step
+
+    }
+
+    return timeline
+}
+
+/***
+ * Create channel list for EPG
+ */
+fun generateChannel(size: Int = 20): List<Channel> {
+    val channels = mutableListOf<Channel>()
+
+    repeat(size) {
+        channels.add(Channel(id = "c$it", name = "Channel $it", index = it))
+    }
+
+    return channels
+}
+
 private val HOURS = listOf(0.5f, 1f, 1.25f, 1.5f, 2f, 2.25f, 2.5f)
 
 private const val CHANNELS_COUNT = 30

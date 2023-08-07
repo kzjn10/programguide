@@ -26,4 +26,8 @@ enum class Example(
         "Program Guide Size",
         "Example how to precalculate size for the layout"
     ),
+    EPG(
+        "EPG UI",
+        "Example how to implement EPG UI"
+    ),
 }
