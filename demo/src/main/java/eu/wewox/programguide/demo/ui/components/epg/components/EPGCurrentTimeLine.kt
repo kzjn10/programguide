@@ -9,6 +9,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
@@ -23,6 +25,7 @@ fun EPGCurrentTimeLine(modifier: Modifier = Modifier, label: String) {
                 top.linkTo(parent.top, margin = 50.dp)
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
+                width = Dimension.fillToConstraints
             }
             .background(color = MaterialTheme.colorScheme.error, shape = RoundedCornerShape(4.dp))
             .padding(horizontal = 8.dp, vertical = 4.dp)
@@ -40,7 +43,14 @@ fun EPGCurrentTimeLine(modifier: Modifier = Modifier, label: String) {
             .background(MaterialTheme.colorScheme.error)
 
         if (label.isNotBlank())
-            Text(modifier = textModifier, text = label)
+            Text(
+                modifier = textModifier,
+                text = label,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.bodyMedium.copy(color = Color.White)
+            )
         Box(modifier = lineModifier)
     }
 }

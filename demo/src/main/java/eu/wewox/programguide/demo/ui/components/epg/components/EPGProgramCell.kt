@@ -26,7 +26,6 @@ fun EPGProgramCell(
     onClick: (() -> Unit)? = null
 ) {
     Surface(
-        color = Color.Transparent,
         onClick = onClick ?: {},
         enabled = onClick != null,
         modifier = modifier,

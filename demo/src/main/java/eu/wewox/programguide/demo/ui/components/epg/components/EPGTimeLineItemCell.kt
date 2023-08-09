@@ -16,7 +16,6 @@ import eu.wewox.programguide.demo.extensions.epgPadding
 @Composable
 fun EPGTimeLineItemCell(hour: Float, modifier: Modifier = Modifier, onClick: (() -> Unit)? = null) {
     Surface(
-        color = MaterialTheme.colorScheme.background,
         onClick = onClick ?: {},
         enabled = onClick != null,
         modifier = modifier,

@@ -2,9 +2,12 @@ package eu.wewox.programguide.demo.ui.components.epg
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import eu.wewox.programguide.ProgramGuide
@@ -35,6 +38,7 @@ fun ElectronicProgramGuide(
     selectedProgram: Program? = null,
     onSelectProgramChanged: (Program) -> Unit,
     onSelectChannelChanged: (Channel) -> Unit,
+    onTimeLineOffsetChanged: ((Offset) -> Unit)? = null,
     indicationInvisible: Boolean = false,
 ) {
     ProgramGuide(
@@ -44,11 +48,11 @@ fun ElectronicProgramGuide(
             timelineHeight = settings.timelineHeight,
             channelWidth = settings.channelWidth,
             channelHeight = settings.channelHeight,
-            currentTimeWidth = settings.currentTimeWidth.dp,
+            currentTimeWidth = settings.currentTimeWidth,
         ),
         modifier = modifier
             .fillMaxWidth()
-            .background(color = Color.Black),
+            .background(color = MaterialTheme.colorScheme.background),
     ) {
         guideStartHour = timeline.first()
 
@@ -110,6 +114,11 @@ fun ElectronicProgramGuide(
             layoutInfo = { ProgramGuideItem.CurrentTime(currentTime) },
             itemContent = {
                 EPGCurrentTimeLine(
+                    modifier = Modifier.onGloballyPositioned { coordinates ->
+                        if (onTimeLineOffsetChanged != null) {
+                            onTimeLineOffsetChanged(coordinates.positionInParent())
+                        }
+                    },
                     label = timelineLabel
                 )
             },

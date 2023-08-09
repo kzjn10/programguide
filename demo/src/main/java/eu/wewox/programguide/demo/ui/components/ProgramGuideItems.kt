@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import eu.wewox.programguide.demo.data.Program
@@ -109,7 +110,7 @@ fun TimelineItemCell(hour: Float, modifier: Modifier = Modifier, onClick: (() ->
 @Composable
 fun CurrentTimeLine(modifier: Modifier = Modifier) {
     Surface(
-        color = MaterialTheme.colorScheme.tertiary,
+        color = Color.Red,
         modifier = modifier,
     ) {
         // Empty

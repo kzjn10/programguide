@@ -1,5 +1,6 @@
 package eu.wewox.programguide.demo.screens
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -35,7 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.extensions.currentHourAndMinute
@@ -51,7 +52,6 @@ import eu.wewox.programguide.demo.ui.theme.SpacingSmall
 import eu.wewox.programguide.rememberProgramGuideState
 import kotlinx.coroutines.launch
 import java.util.Calendar
-import kotlin.math.abs
 
 /**
  * Example how program guide state could be used.
@@ -104,15 +104,34 @@ fun EPGScreen() {
         val settings by remember { mutableStateOf(EPGSettings()) }
         var selectedChannel by remember { mutableStateOf(channels.first()) }
         var selectedProgram by remember { mutableStateOf(programs.first()) }
-        val distance = LocalConfiguration.current.screenWidthDp + settings.currentTimeWidth / 2 + 3
+        var currentTimePosition by remember { mutableStateOf(Offset.Zero) }
+
+        val ctlStartPosition =
+            LocalDensity.current.run { (settings.channelWidth - settings.currentTimeWidth).toPx() }
+        val ctlEndPosition = LocalContext.current.resources.displayMetrics.widthPixels - 1
+        val currentTimeThreshold = LocalDensity.current.run { settings.currentTimeWidth.toPx() }
+
         val liveNow by remember {
             derivedStateOf {
+                // TODO: AnhNDT - Double check here later
+//                Log.d(">>> ", "EPGScreen: ${currentTimePosition.x} $ctlEndPosition ")
+//                (currentTimePosition.x >= ctlEndPosition
+//                        || currentTimePosition.x <= ctlStartPosition)
                 val translate = state.minaBoxState.translate
-                translate?.let {
-                    abs(state.positionProvider.getCurrentTimePosition() - translate.x) < distance
-                } ?: run {
+                if (translate == null) {
                     false
+                } else {
+//                    val xxxxxx = state.positionProvider.getCurrentTimePosition()
+////                    translate.maxX - translate.x < buttonVisibilityThreshold
+//                    Log.d(">>> ", "EPGScreen: $xxxxxx")
+//                    Log.d(
+//                        ">>> ",
+//                        "EPGScreen: ${translate.maxX} ${translate.x}  ${translate.maxX - translate.x} $currentTimeThreshold"
+//                    )
+                    (currentTimePosition.x >= ctlEndPosition
+                            || currentTimePosition.x <= ctlStartPosition)
                 }
+
             }
         }
 
@@ -171,6 +190,9 @@ fun EPGScreen() {
                         selectedProgram = it
                     },
                     indicationInvisible = indicatorVisible,
+                    onTimeLineOffsetChanged = { offset ->
+                        currentTimePosition = offset
+                    }
                 )
 
                 ControlButton(
