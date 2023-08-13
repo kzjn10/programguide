@@ -31,9 +31,12 @@ android {
 }
 
 dependencies {
-	api(libs.minabox)
+//	api(libs.minabox)
+	implementation(project(":minabox"))
 
 	implementation(platform(libs.compose.bom))
 	implementation(libs.compose.foundation)
 	implementation(libs.compose.ui)
+
+//	implementation("com.github.camapblue:minabox:1.3.5")
 }

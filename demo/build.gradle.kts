@@ -54,6 +54,7 @@ android {
 
 dependencies {
 	implementation(project(":programguide"))
+	implementation(project(":minabox"))
 
 	implementation(platform(libs.compose.bom))
 	implementation(libs.compose.material3)
