@@ -31,7 +31,7 @@ android {
 }
 
 dependencies {
-	api(libs.minabox)
+	implementation(project(":minabox"))
 
 	implementation(platform(libs.compose.bom))
 	implementation(libs.compose.foundation)

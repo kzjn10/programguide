@@ -137,13 +137,13 @@ public interface ProgramGuideScope {
         layoutInfo: (item: T) -> Program,
         key: ((item: T) -> Any)? = null,
         contentType: (item: T) -> Any? = { null },
-        itemContent: @Composable (item: T) -> Unit
+        itemContent: @Composable (item: T, index: Int) -> Unit
     ): Unit = programs(
         count = items.size,
         layoutInfo = { index: Int -> layoutInfo(items[index]) },
         key = if (key != null) { index: Int -> key(items[index]) } else null,
         contentType = { index: Int -> contentType(items[index]) },
-        itemContent = { index: Int -> itemContent(items[index]) },
+        itemContent = { index: Int -> itemContent(items[index], index) },
     )
 
     /**

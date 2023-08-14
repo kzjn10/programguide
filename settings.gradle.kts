@@ -18,3 +18,4 @@ dependencyResolutionManagement {
 rootProject.name = "ProgramGuide"
 include(":demo")
 include(":programguide")
+include(":minabox")

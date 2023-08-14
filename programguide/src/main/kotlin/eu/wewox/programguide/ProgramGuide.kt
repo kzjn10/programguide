@@ -2,12 +2,22 @@ package eu.wewox.programguide
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import eu.wewox.minabox.MinaBox
 import eu.wewox.minabox.MinaBoxItem
 import eu.wewox.minabox.MinaBoxScope
+import eu.wewox.minabox.MinaBoxScrollDirection
+import eu.wewox.minabox.MinaBoxState
+import java.lang.System.currentTimeMillis
+import kotlin.math.abs
 
 /**
  * Lazy layout to display program guide data on the two directional plane.
@@ -31,6 +41,8 @@ public fun ProgramGuide(
 ) {
     val dimensionsPx = dimensions.roundToPx(LocalDensity.current)
     val scope = ProgramGuideScopeImpl().apply(content)
+    var lastTranslate: MinaBoxState.Translate? = null
+    var scrollingDirection by remember { mutableStateOf(MinaBoxScrollDirection.BOTH) }
 
     state.dimensions = dimensionsPx
     state.indexMapper = ProgramGuideIndexMapper(
@@ -38,11 +50,35 @@ public fun ProgramGuide(
         currentTimeCount = scope.currentTimeContent?.count ?: 0,
         channelsCount = scope.channelsContent?.count ?: 0,
     )
+    LaunchedEffect(state) {
+        snapshotFlow { state.minaBoxState.translate }
+            .collect { translate ->
+                translate?.let { current ->
+                    lastTranslate?.let { last ->
+                        val offsetX = abs(current.x - last.x)
+                        val offsetY = abs(current.y - last.y)
+                        if (scrollingDirection == MinaBoxScrollDirection.BOTH) {
+                            if (offsetX > offsetY && offsetX - offsetY > 5.0) {
+                                scrollingDirection = MinaBoxScrollDirection.HORIZONTAL
+                            } else if (offsetX < offsetY && offsetY - offsetX > 5.0) {
+                                scrollingDirection = MinaBoxScrollDirection.VERTICAL
+                            }
+                        } else if (offsetX < 1.0 && offsetY < 1.0) {
+                            scrollingDirection = MinaBoxScrollDirection.BOTH
+                        }
+                        lastTranslate = current
+                    } ?: run {
+                        lastTranslate = current
+                    }
+                }
+            }
+    }
 
     MinaBox(
         state = state.minaBoxState,
         contentPadding = contentPadding,
-        modifier = modifier
+        modifier = modifier,
+        scrollDirection = scrollingDirection,
     ) {
         items(
             toMinaBoxItem = { toMinaBoxItem(scope.guideStartHour, dimensionsPx) },

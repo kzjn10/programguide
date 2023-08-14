@@ -74,7 +74,7 @@ fun ProgramGuideSizeScreen() {
                                 endHour = it.end,
                             )
                         },
-                        itemContent = { ProgramCell(it) },
+                        itemContent = { program, _ -> ProgramCell(program) },
                     )
 
                     channels(

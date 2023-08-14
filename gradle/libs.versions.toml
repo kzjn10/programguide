@@ -3,7 +3,7 @@ sdk-compile = "33"
 sdk-min = "21"
 sdk-target = "33"
 
-minabox = "1.1.0"
+#minabox = "1.3.3"
 
 compose-bom = "2023.06.00"
 compose-compiler = "1.4.7"
@@ -28,7 +28,7 @@ appcompat = "1.6.1"
 material = "1.8.0"
 
 [libraries]
-minabox = { module = "io.github.oleksandrbalan:minabox", version.ref = "minabox" }
+#minabox = { module = "io.github.kzjn10:minabox", version.ref = "minabox" }
 compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
 compose-foundation = { module = "androidx.compose.foundation:foundation" }
 compose-material3 = { module = "androidx.compose.material3:material3" }
