@@ -171,7 +171,6 @@ fun EPGScreen() {
                 modifier = Modifier
                     .weight(1f)
             ) {
-
                 ElectronicProgramGuide(
                     state = state,
                     channels = channels,

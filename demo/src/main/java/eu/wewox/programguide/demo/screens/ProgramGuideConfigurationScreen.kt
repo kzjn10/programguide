@@ -88,7 +88,7 @@ private fun ProgramGuide(
                     endHour = it.end,
                 )
             },
-            itemContent = { ProgramCell(it) },
+            itemContent = { program, _ -> ProgramCell(program = program) },
         )
 
         if (settings.showChannels) {

@@ -103,11 +103,11 @@ fun ProgramGuideStateScreen() {
                             endHour = it.end,
                         )
                     },
-                    itemContent = {
+                    itemContent = { program, _ ->
                         ProgramCell(
-                            program = it,
+                            program = program,
                             onClick = {
-                                val index = programs.indexOf(it)
+                                val index = programs.indexOf(program)
                                 scope.launch { state.animateToProgram(index) }
                             }
                         )

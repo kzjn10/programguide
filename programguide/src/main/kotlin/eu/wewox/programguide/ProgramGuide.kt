@@ -57,7 +57,6 @@ public fun ProgramGuide(
                     lastTranslate?.let { last ->
                         val offsetX = abs(current.x - last.x)
                         val offsetY = abs(current.y - last.y)
-//                            println("Offset >> ($offsetX, $offsetY)")
                         if (scrollingDirection == MinaBoxScrollDirection.BOTH) {
                             if (offsetX > offsetY && offsetX - offsetY > 5.0) {
                                 scrollingDirection = MinaBoxScrollDirection.HORIZONTAL
@@ -75,7 +74,6 @@ public fun ProgramGuide(
             }
     }
 
-    println("Scrolling NOW >> $scrollingDirection")
     MinaBox(
         state = state.minaBoxState,
         contentPadding = contentPadding,

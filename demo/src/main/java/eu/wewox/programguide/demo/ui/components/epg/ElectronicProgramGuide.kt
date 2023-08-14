@@ -2,12 +2,21 @@ package eu.wewox.programguide.demo.ui.components.epg
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.snapshotFlow
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import eu.wewox.programguide.ProgramGuide
@@ -41,6 +50,23 @@ fun ElectronicProgramGuide(
     onTimeLineOffsetChanged: ((Offset) -> Unit)? = null,
     indicationInvisible: Boolean = false,
 ) {
+    var offsetX by remember { mutableStateOf<Float>(state.minaBoxState.translate?.x ?: 0.0f) }
+
+    LaunchedEffect(state) {
+        snapshotFlow { state.minaBoxState.translate }
+            .collect { translate ->
+                translate?.let {
+                    offsetX = it.x
+                }
+            }
+    }
+
+    LaunchedEffect(UInt) {
+        state.minaBoxState.translate?.let {
+            offsetX = it.x
+        }
+    }
+
     ProgramGuide(
         state = state,
         dimensions = dimensions(
@@ -65,15 +91,22 @@ fun ElectronicProgramGuide(
                     endHour = it.end,
                 )
             },
-            itemContent = {
+            itemContent = { program, index ->
+                val offsetXStart = state.minaBoxState.positionProvider.getItemStartX(index)
+                val offsetXEnd = offsetXStart + state.minaBoxState.positionProvider.getItemSize(index).width
+                val itemOffsetX = (offsetX + with(LocalDensity.current) { settings.channelWidth.toPx() }) - offsetXStart
+                val itemPadding = if (itemOffsetX < 0.0f || offsetX > offsetXEnd) 0.0f else itemOffsetX
+                val paddingInDp = with(LocalDensity.current) { itemPadding.toDp() }
+
                 EPGProgramCell(
-                    program = it,
-                    isHighlight = it == selectedProgram,
-                    isSelected = it.channel == selectedChannel?.index,
+                    program = program,
+                    isHighlight = program == selectedProgram,
+                    isSelected = program.channel == selectedChannel?.index,
                     onClick = {
-                        onSelectChannelChanged(channels[it.channel])
-                        onSelectProgramChanged(it)
+                        onSelectChannelChanged(channels[program.channel])
+                        onSelectProgramChanged(program)
                     },
+                    modifier = modifier.padding(start = paddingInDp)
                 )
             },
         )

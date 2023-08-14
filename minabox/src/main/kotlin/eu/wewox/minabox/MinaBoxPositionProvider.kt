@@ -55,6 +55,12 @@ public interface MinaBoxPositionProvider {
         paddingEnd: Float = 0f,
         paddingBottom: Float = 0f,
     ): IntOffset
+
+    public fun viewport(): Size
+
+    public fun getItemSize(index: Int): Size
+
+    public fun getItemStartX(index: Int): Float
 }
 
 /**
@@ -108,4 +114,16 @@ internal class MinaBoxPositionProviderImpl(
             ),
             layoutDirection = layoutDirection,
         )
+
+    override fun viewport(): Size = this.size
+
+    override fun getItemSize(index: Int): Size {
+        val info = items[index] ?: return Size.Zero
+        return Size(width = info.width.resolve(), height = info.height.resolve())
+    }
+
+    override fun getItemStartX(index: Int): Float {
+        val info = items[index] ?: return 0.0f
+        return info.x
+    }
 }
