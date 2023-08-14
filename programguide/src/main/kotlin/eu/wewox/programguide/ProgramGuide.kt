@@ -16,8 +16,8 @@ import eu.wewox.minabox.MinaBoxItem
 import eu.wewox.minabox.MinaBoxScope
 import eu.wewox.minabox.MinaBoxScrollDirection
 import eu.wewox.minabox.MinaBoxState
-import java.lang.System.currentTimeMillis
 import kotlin.math.abs
+
 
 /**
  * Lazy layout to display program guide data on the two directional plane.

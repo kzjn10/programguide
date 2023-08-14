@@ -1,6 +1,5 @@
 package eu.wewox.programguide.demo.ui.components.epg
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -9,17 +8,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.layout.positionInRoot
-import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import eu.wewox.programguide.ProgramGuide
@@ -96,9 +92,12 @@ fun ElectronicProgramGuide(
             },
             itemContent = { program, index ->
                 val offsetXStart = state.minaBoxState.positionProvider.getItemStartX(index)
-                val offsetXEnd = offsetXStart + state.minaBoxState.positionProvider.getItemSize(index).width
-                val itemOffsetX = (offsetX + with(LocalDensity.current) { settings.channelWidth.toPx() }) - offsetXStart
-                val itemPadding = if (itemOffsetX < 0.0f || offsetX > offsetXEnd) 0.0f else itemOffsetX
+                val offsetXEnd =
+                    offsetXStart + state.minaBoxState.positionProvider.getItemSize(index).width
+                val itemOffsetX =
+                    (offsetX + with(LocalDensity.current) { settings.channelWidth.toPx() }) - offsetXStart
+                val itemPadding =
+                    if (itemOffsetX < 0.0f || offsetX > offsetXEnd) 0.0f else itemOffsetX
                 val paddingInDp = with(LocalDensity.current) { itemPadding.toDp() }
 
                 EPGProgramCell(
