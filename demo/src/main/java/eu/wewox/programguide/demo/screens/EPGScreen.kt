@@ -1,6 +1,5 @@
 package eu.wewox.programguide.demo.screens
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -104,34 +103,32 @@ fun EPGScreen() {
         val settings by remember { mutableStateOf(EPGSettings()) }
         var selectedChannel by remember { mutableStateOf(channels.first()) }
         var selectedProgram by remember { mutableStateOf(programs.first()) }
-        var currentTimePosition by remember { mutableStateOf(Offset.Zero) }
+        var ctpOnParent by remember { mutableStateOf(Offset.Zero) }
 
         val ctlStartPosition =
             LocalDensity.current.run { (settings.channelWidth - settings.currentTimeWidth).toPx() }
         val ctlEndPosition = LocalContext.current.resources.displayMetrics.widthPixels - 1
-        val currentTimeThreshold = LocalDensity.current.run { settings.currentTimeWidth.toPx() }
+        val spacer = LocalDensity.current.run { 4.dp.toPx() }
 
         val liveNow by remember {
             derivedStateOf {
-                // TODO: AnhNDT - Double check here later
-//                Log.d(">>> ", "EPGScreen: ${currentTimePosition.x} $ctlEndPosition ")
-//                (currentTimePosition.x >= ctlEndPosition
-//                        || currentTimePosition.x <= ctlStartPosition)
                 val translate = state.minaBoxState.translate
                 if (translate == null) {
                     false
                 } else {
-//                    val xxxxxx = state.positionProvider.getCurrentTimePosition()
-////                    translate.maxX - translate.x < buttonVisibilityThreshold
-//                    Log.d(">>> ", "EPGScreen: $xxxxxx")
-//                    Log.d(
-//                        ">>> ",
-//                        "EPGScreen: ${translate.maxX} ${translate.x}  ${translate.maxX - translate.x} $currentTimeThreshold"
-//                    )
-                    (currentTimePosition.x >= ctlEndPosition
-                            || currentTimePosition.x <= ctlStartPosition)
-                }
+                    val ctp = state.positionProvider.getCurrentTimePosition()
+                    val limitOfCTLinParent =
+                        translate.x + (ctlEndPosition - ctlStartPosition) / 2 + spacer
 
+//                    Log.d(">>> ", "EPGScreen: ${translate.x} ${(ctlEndPosition - ctlStartPosition) / 2}")
+//                    Log.d(">>> ", "EPGScreen: $spacer $limitOfCTLinParent")
+
+                    return@derivedStateOf if (ctpOnParent.x >= ctlEndPosition)
+                        true
+                    else if (ctpOnParent.x <= ctlStartPosition)
+                        true
+                    else ctp >= limitOfCTLinParent
+                }
             }
         }
 
@@ -191,7 +188,7 @@ fun EPGScreen() {
                     },
                     indicationInvisible = indicatorVisible,
                     onTimeLineOffsetChanged = { offset ->
-                        currentTimePosition = offset
+                        ctpOnParent = offset
                     }
                 )
 
