@@ -18,6 +18,7 @@ import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import eu.wewox.programguide.ProgramGuide
 import eu.wewox.programguide.ProgramGuideDefaults
 import eu.wewox.programguide.ProgramGuideDimensions
@@ -25,6 +26,7 @@ import eu.wewox.programguide.ProgramGuideItem
 import eu.wewox.programguide.ProgramGuideState
 import eu.wewox.programguide.demo.data.Channel
 import eu.wewox.programguide.demo.data.Program
+import eu.wewox.programguide.demo.ui.components.CurrentTimeLine
 import eu.wewox.programguide.demo.ui.components.epg.components.EPGChannelCell
 import eu.wewox.programguide.demo.ui.components.epg.components.EPGCurrentTimeLine
 import eu.wewox.programguide.demo.ui.components.epg.components.EPGProgramCell
@@ -122,6 +124,7 @@ fun ElectronicProgramGuide(
             },
             itemContent = {
                 EPGChannelCell(
+                    modifier = Modifier.zIndex(4f),
                     index = it,
                     isSelected = channels[it] == selectedChannel,
                     onClick = {
@@ -146,6 +149,7 @@ fun ElectronicProgramGuide(
         )
 
         currentTime(
+            key = { "currentTime"},
             layoutInfo = { ProgramGuideItem.CurrentTime(currentTime) },
             itemContent = {
                 EPGCurrentTimeLine(
@@ -153,15 +157,16 @@ fun ElectronicProgramGuide(
                         if (onTimeLineOffsetChanged != null) {
                             onTimeLineOffsetChanged(coordinates.positionInParent())
                         }
-                    },
+                    }.zIndex(3f),
                     label = timelineLabel
                 )
             },
         )
 
         topCorner(
+            key = { "topCorner"},
             itemContent = {
-                EPGTopCorner(indicationInvisible = indicationInvisible)
+                EPGTopCorner(modifier = Modifier.zIndex(4f), indicationInvisible = indicationInvisible)
             },
         )
     }
