@@ -38,12 +38,12 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import com.example.myapplication.extensions.currentHourAndMinute
-import com.example.myapplication.extensions.currentHourInFloat
 import eu.wewox.programguide.demo.Example
 import eu.wewox.programguide.demo.data.createEPGPrograms
 import eu.wewox.programguide.demo.data.generateChannel
 import eu.wewox.programguide.demo.data.generateTimeline
+import eu.wewox.programguide.demo.extensions.currentHourAndMinute
+import eu.wewox.programguide.demo.extensions.currentHourInFloat
 import eu.wewox.programguide.demo.ui.components.TopBar
 import eu.wewox.programguide.demo.ui.components.epg.EPGSettings
 import eu.wewox.programguide.demo.ui.components.epg.ElectronicProgramGuide
@@ -119,9 +119,6 @@ fun EPGScreen() {
                     val ctp = state.positionProvider.getCurrentTimePosition()
                     val limitOfCTLinParent =
                         translate.x + (ctlEndPosition - ctlStartPosition) / 2 + spacer
-
-//                    Log.d(">>> ", "EPGScreen: ${translate.x} ${(ctlEndPosition - ctlStartPosition) / 2}")
-//                    Log.d(">>> ", "EPGScreen: $spacer $limitOfCTLinParent")
 
                     return@derivedStateOf if (ctpOnParent.x >= ctlEndPosition)
                         true

@@ -1,4 +1,4 @@
-package com.example.myapplication.extensions
+package eu.wewox.programguide.demo.extensions
 
 import android.util.Log
 import java.util.Calendar
