@@ -104,5 +104,6 @@ https://github.com/oleksandrbalan/programguide/assets/20944869/9ce2ecc6-7b80-470
 If you need further customization options, check [MinaBox](https://github.com/oleksandrbalan/minabox) library.
 
 EPG UI
+
 ![Alt text](https://github.com/kzjn10/programguide/blob/feat/implement-epg/assets/epg.gif)
 
