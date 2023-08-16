@@ -102,3 +102,7 @@ Fully configurable layout.
 https://github.com/oleksandrbalan/programguide/assets/20944869/9ce2ecc6-7b80-470b-9254-77dcd5e670c1
 
 If you need further customization options, check [MinaBox](https://github.com/oleksandrbalan/minabox) library.
+
+EPG UI
+![Alt text](https://github.com/kzjn10/programguide/blob/feat/implement-epg/assets/epg.gif)
+
